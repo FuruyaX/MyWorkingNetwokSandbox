@@ -1,0 +1,2 @@
+# トポロジーのデプロイ（コンテナの起動と結線が自動で行われます）
+sudo containerlab deploy -t topology.clab.yml
