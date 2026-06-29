@@ -1,0 +1,12 @@
+# 1. Dockerのインストール
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+
+# 現在のユーザーをdockerグループに追加（反映にはログアウト/ログインが必要ですが、今回はsudoで進めます）
+sudo usermod -aG docker $USER
+
+# 2. Containerlabのインストール (ネットワーク構築・GUIツール)
+bash -c "$(curl -sL https://get.containerlab.dev)"
+
+# バージョン確認
+containerlab version
