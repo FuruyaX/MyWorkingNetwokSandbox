@@ -1,0 +1,13 @@
+# ルーティングテーブルの確認
+sudo docker exec -it clab-ospf-diamond-r1 vtysh -c "show ip route ospf"
+#  疎通確認
+sudo docker exec -it clab-ospf-diamond-r1 ping -I 1.1.1.1 -c 3 4.4.4.4
+# 障害発生のシミュレーション（経路切り替え）
+sudo docker exec -it clab-ospf-diamond-r1 vtysh \
+  -c "configure terminal" \
+  -c "interface eth1" \
+  -c "shutdown"
+# 切り替え後のルーティングテーブル確認
+sudo docker exec -it clab-ospf-diamond-r1 vtysh -c "show ip route ospf"
+# 切り替え後の疎通確認
+sudo docker exec -it clab-ospf-diamond-r1 ping -I 1.1.1.1 -c 3 4.4.4.4
