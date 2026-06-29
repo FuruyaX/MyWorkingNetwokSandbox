@@ -1,0 +1,4 @@
+# GUIサーバの起動
+sudo containerlab graph -t topology.clab.yml
+# 疎通確認
+sudo docker exec -it clab-ospf-diamond-r1 vtysh -c "show ip route ospf"
