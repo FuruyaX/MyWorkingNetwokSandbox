@@ -1,0 +1,2 @@
+sudo containerlab destroy -t topology.clab.yml --cleanup
+sudo containerlab deploy -t topology.clab.yml
