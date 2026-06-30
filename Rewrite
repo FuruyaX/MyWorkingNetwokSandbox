@@ -1,0 +1,94 @@
+# 1. フォルダの強制再作成
+mkdir -p config/r1 config/r2 config/r3 config/r4
+
+# 2. 共通デーモン設定の作成
+cat << 'EOF' > config/daemons
+zebra=yes
+bgpd=no
+ospfd=yes
+ospf6d=no
+ripd=no
+ripngd=no
+isisd=no
+EOF
+
+# 3. R1〜R4の設定ファイルを再作成
+cat << 'EOF' > config/r1/frr.conf
+frr version 8.4
+frr defaults traditional
+hostname r1
+!
+interface lo
+ ip address 1.1.1.1/32
+!
+interface eth1
+ ip address 10.0.12.1/24
+ ip ospf network point-to-point
+!
+interface eth2
+ ip address 10.0.13.1/24
+ ip ospf network point-to-point
+!
+router ospf
+ network 10.0.12.0/24 area 0
+ network 10.0.13.0/24 area 0
+ network 1.1.1.1/32 area 0
+EOF
+
+cat << 'EOF' > config/r2/frr.conf
+frr version 8.4
+frr defaults traditional
+hostname r2
+!
+interface eth1
+ ip address 10.0.12.2/24
+ ip ospf network point-to-point
+!
+interface eth2
+ ip address 10.0.24.2/24
+ ip ospf network point-to-point
+!
+router ospf
+ network 10.0.12.0/24 area 0
+ network 10.0.24.0/24 area 0
+EOF
+
+cat << 'EOF' > config/r3/frr.conf
+frr version 8.4
+frr defaults traditional
+hostname r3
+!
+interface eth1
+ ip address 10.0.13.3/24
+ ip ospf network point-to-point
+!
+interface eth2
+ ip address 10.0.34.3/24
+ ip ospf network point-to-point
+!
+router ospf
+ network 10.0.13.0/24 area 0
+ network 10.0.34.0/24 area 0
+EOF
+
+cat << 'EOF' > config/r4/frr.conf
+frr version 8.4
+frr defaults traditional
+hostname r4
+!
+interface lo
+ ip address 4.4.4.4/32
+!
+interface eth1
+ ip address 10.0.24.4/24
+ ip ospf network point-to-point
+!
+interface eth2
+ ip address 10.0.34.4/24
+ ip ospf network point-to-point
+!
+router ospf
+ network 10.0.24.0/24 area 0
+ network 10.0.34.0/24 area 0
+ network 4.4.4.4/32 area 0
+EOF
